@@ -1,13 +1,13 @@
-
+import {Link} from 'react-router-dom';
 
 export default function Nav(){
     return(
         <nav className="nav--container">
             <img src="../Images/photo.jpg" />
-            <h3>SAMUEL KERTÉS</h3>
+            <h3><Link to="/">SAMUEL KERTÉS</Link></h3>
             <ul>
-                <li className="nav-li">Dataviz</li>
-                <li className="nav-li">About</li>
+                <li className="nav-li"><Link to="/dataviz">Articles</Link></li>
+                <li className="nav-li"><Link to="/about">About</Link></li>
                 <li className="nav-li">Contact</li>
             </ul>
         </nav>
