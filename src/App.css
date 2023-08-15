@@ -126,12 +126,35 @@ a{
 }
 
 .posts-cont{
-  height: 60vh;
+  height: auto;
 }
 
 .post--box{
   width: 60%;
   height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.post--box h2{
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #00b7c6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.post--box p{
+  color: #6f777d;
+  font-size: 0.8em;
+}
+
+.post--box h4{
+  font-size: 1em;
+  font-weight: 400;
+  color: #3d4144;
 }
 
 .post--box img{

@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../../Context/Context";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 export default function PostCont(){
     const {articlesData} = useContext(Context);
@@ -7,8 +9,8 @@ export default function PostCont(){
     const recentPosts = articlesData.map((dat) => {
         return <div className="post--box">
             <h2>{dat.title}</h2>
-            <p>{dat.time}</p>
-            <h5>{dat.content}</h5>
+            <p><FontAwesomeIcon icon={faClock} /> {dat.time}</p>
+            <h4>{dat.content}</h4>
             <img src={dat.img} />
         </div>
     })
