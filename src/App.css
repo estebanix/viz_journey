@@ -98,13 +98,20 @@ a{
   gap: 26px;
 }
 
-.main-screen-about--container{
+.main-screen--container{
   width: 100%;
   height: auto;
-  padding: 30px 10%;
+  padding: 0 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-screen-about--container{
+  padding: 30px 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
 }
 
 .main-screen-about--container h1{
@@ -116,4 +123,18 @@ a{
   color: #3d4144;
   font-weight: 400;
   font-size: 1.15em;
+}
+
+.posts-cont{
+  height: 60vh;
+}
+
+.post--box{
+  width: 60%;
+  height: 300px;
+}
+
+.post--box img{
+  width: 300px;
+  height: auto;
 }

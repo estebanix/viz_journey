@@ -1,13 +1,11 @@
-import Nav from "../Small_Components/Nav";
 import MainScreenAbout from "../Small_Components/MainScreenAbout";
-import Footer from "../Small_Components/Footer";
+import PostCont from "../Small_Components/PostsCont";
 
 export default function MainScreen(){
     return(
-        <main>
-            <Nav />
+        <main className="main-screen--container">
             <MainScreenAbout />
-            <Footer />
+            <PostCont />
         </main>
     );
 }
