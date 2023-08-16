@@ -8,7 +8,7 @@ export default function Nav(){
             <ul>
                 <li className="nav-li"><Link to="/dataviz">Articles</Link></li>
                 <li className="nav-li"><Link to="/about">About</Link></li>
-                <li className="nav-li">Contact</li>
+                <li className="nav-li"><Link to="/contact">Contact</Link></li>
             </ul>
         </nav>
     );
