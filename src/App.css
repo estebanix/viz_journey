@@ -187,3 +187,12 @@ span{
   line-height: 32px;
   font-weight: 400;
 }
+
+svg{
+  overflow: visible;
+}
+
+.about{
+  width: 100%;
+  padding: 30px;
+}
