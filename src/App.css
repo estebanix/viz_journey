@@ -196,3 +196,12 @@ svg{
   width: 100%;
   padding: 30px;
 }
+
+.articles--container{
+  width: 100%;
+  height: auto;
+  padding: 30px 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
