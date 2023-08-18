@@ -4,7 +4,7 @@ import {select, axisBottom, axisRight, scaleLinear, scaleBand} from "d3";
 export default function About(){
     const svgRef = useRef();
     const [data, setData] = useState([20,30, 50, 22, 69])
-    const [mousePosition, setMousePosition] = useState({x: 0, y: 0})
+    const [rangePostion, setRangePosition] = useState(1)
 
     useEffect(() => {
         const svg = select(svgRef.current);
@@ -19,19 +19,19 @@ export default function About(){
         svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
 
         svg
-        .selectAll(".bar")
+        .selectAll("circle")
         .data(data)
-        .join("rect")
-        .attr("class", "bar")
-        .style("transform", "scale(1, -1)")
-        .attr("x", (value, index) => xScale(index))
-        .attr("y", -150)
-        .attr("width", xScale.bandwidth())
-        .transition()
-        .attr("fill", colorScale)
-        .attr("height", value => 150 - yScale(value))
-       
-    }, [data])
+        .join("circle")
+        .attr("fill", `rgba(205, 92, 92, 0.501)`)
+        .attr("cx", value => value * rangePostion / 4)
+        .attr("cy", value => value * rangePostion / 40)
+        .attr("r", value => value / 4)
+
+    }, [data, rangePostion])
+
+    const showFlow = (e) => {
+        setRangePosition(e.target.value)
+    }
 
     return(
         <main className="main-contact--container">
@@ -39,7 +39,7 @@ export default function About(){
                 <g className="x-axis" />
                 <g className="y-axis" />
             </svg>
-            <button onClick={() => setData(data.map((dat) => dat + 5))}>click</button>
+            <input type="range" onChange={e => showFlow(e)} min="1" max="10" value={rangePostion} />
         </main>
     );
 }
