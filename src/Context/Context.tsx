@@ -10,7 +10,7 @@ export const Context = createContext<ContextType>({} as ContextType);
 
 const ContextProvider = (props: any) => {
     const [articlesData, setArticlesData] = useState(Articles);
-
+    
     return (
         <Context.Provider
             value={{
