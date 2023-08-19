@@ -1,11 +1,13 @@
 [
-    {
+    {   
+        "name" : "post2",
         "title" : "Žigi bigule",
         "time" : "3 minutes",
         "content" : "šalalalalalalalšalalalalalašalalal flow ma keš",
         "img" : "../../Images/article2.png"
     },
-    {
+    {   
+        "name" : "post1",
         "title" : "What the hell is this all about?",
         "time" : "5 minutes",
         "content" : "blablablblablablablalbalblablablablabllabblalblabblaabllbalablablbabalablbal something about me...",

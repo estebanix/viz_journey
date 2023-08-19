@@ -8,6 +8,14 @@ export default function About(){
     const [data, setData] = useState([{x: 20, y: 34, label: "dot1"},{x: 10, y: 44, label: "dot2"},{x: 50, y: 134, label: "dot3"}])
     const [rangePostion, setRangePosition] = useState(1)
 
+    const groupColors = {
+        Africa: "#f2c57c",
+        Americas: "#ddae7e",
+        Asia: "#7fb685",
+        Europe: "#ef6f6c",
+        Oceania: "#426a5a",
+      };
+
     useEffect(() => {
         const svg = select(svgRef.current);
         const xScale = scaleBand().domain(data.map((dat, index) => index)).range([0, 600]).padding(0.5)
@@ -17,13 +25,13 @@ export default function About(){
         svg.select(".x-axis").style("transform", "translateY(300px)").call(xAxis);
         
         const yAxis = axisRight(yScale);
-        svg.select(".y-axis").style("transform", "translateX(600px)").call(yAxis);
+        svg.select(".y-axis").call(yAxis);
 
         svg
         .selectAll("circle")
         .data(vizData)
         .join("circle")
-        .attr("fill", `rgba(205, 92, 92, 0.${rangePostion})`)
+        .attr("fill", value => groupColors[value.group]) 
         .attr("cx", value => value.x / (10 * rangePostion))
         .attr("cy", value => value.y * 3 )
         .attr("r", "5")
