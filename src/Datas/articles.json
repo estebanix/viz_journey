@@ -3,14 +3,14 @@
         "name" : "post2",
         "title" : "GDP of Countries Visualization",
         "time" : "3 minutes",
-        "content" : "šalalalalalalalšalalalalalašalalal flow ma keš",
+        "content" : "In today's interconnected world, grasping the dynamics of global economic growth is a captivating pursuit. Gross Domestic Product (GDP), a key measure of a nation's economic performance, takes on even greater significance in this context. Through visualization, we're able to explore GDP's patterns and fluctuations, gaining valuable insights into different economies and their interplay. This blog delves into the realm of GDP visualization, offering a unique perspective on the intricate world of economics.",
         "img" : "../../Images/article2.png"
     },
     {   
         "name" : "post1",
         "title" : "What the hell is this all about?",
         "time" : "5 minutes",
-        "content" : "blablablblablablablalbalblablablablabllabblalblabblaabllbalablablbabalablbal something about me...",
+        "content" : "something about me",
         "img" : "../../Images/article1.jpg"
     }
 ]
