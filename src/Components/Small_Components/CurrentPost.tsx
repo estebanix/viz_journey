@@ -13,7 +13,7 @@ export default function CurrentPost() {
     }
     
     return (
-        <div>
+        <div className='current-post--container'>
             <h1>{post.title}</h1>
             <p>{post.content}</p>
         </div>

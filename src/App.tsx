@@ -6,7 +6,7 @@ import MainArticles from './Components/Big_Components/MainArticles';
 import { Routes, Route } from 'react-router-dom';
 import Nav from './Components/Small_Components/Nav';
 import Footer from './Components/Small_Components/Footer';
-import CurrentPost from './Components/Small_Components/CurrentPost';
+import MainCurrentPost from './Components/Big_Components/MainCurrentPost';
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
         <Route path='/posts' element={<MainArticles />} />
         <Route path='/about' element={<MainAbout />} />
         <Route path='/contact' element={<MainContact />}/>
-        <Route path='/:postName' element={<CurrentPost />} />
+        <Route path='/:postName' element={<MainCurrentPost />} />
       </Routes>
       <Footer />
     </>

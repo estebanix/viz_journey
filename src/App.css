@@ -205,3 +205,58 @@ svg{
   flex-direction: column;
   align-items: center;
 }
+
+.main-current-post--container{
+  width: 100%;
+  height: auto;
+  min-height: 80vh;
+  display: flex;
+  padding: 30px 10%;
+}
+
+.side-profile--container{
+  width: 20%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 20px;
+  gap: 20px;
+  opacity: 0.6;
+  transition: 0.4s ease-in-out;
+  color: #3d4144;
+}
+
+.side-profile--container:hover{
+  opacity: 1;
+}
+
+.side-profile--container img{
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 1px solid #6f777d20;
+  padding: 5px;
+}
+
+.side-profile--container ul{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+} 
+
+
+.side-profile--container ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.side-profile--container ul li svg {
+  width: 20px;
+}
+
+.current-post--container{
+  width: 80%;
+  min-height: 100%;
+}
