@@ -2,8 +2,14 @@ import React, { useRef, useEffect, useState } from "react";
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
 
 function DataViz() {
-  const [data, setData] = useState([25, 30, 45, 60, 10, 65, 75]);
+  const [data, setData] = useState([20]);
+  const [sliderValue, setSliderValue] = useState(1);
   const svgRef = useRef();
+
+  const handleSliderChange = (event) => {
+    setSliderValue(event.target.value);
+    setData([sliderValue * 20]);
+  };
 
   // will be called initially and on every data change
   useEffect(() => {
@@ -60,7 +66,7 @@ function DataViz() {
       .transition()
       .attr("fill", colorScale)
       .attr("height", (value) => 150 - yScale(value));
-  }, [data]);
+  }, [data, sliderValue]);
 
   return (
     <React.Fragment>
@@ -68,12 +74,14 @@ function DataViz() {
         <g className="x-axis" />
         <g className="y-axis" />
       </svg>
-      <button onClick={() => setData(data.map((value) => value + 5))}>
-        Update data
-      </button>
-      <button onClick={() => setData(data.filter((value) => value < 35))}>
-        Filter data
-      </button>
+      <input
+        type="range"
+        min="1"
+        max="3"
+        value={sliderValue}
+        onChange={handleSliderChange}
+      />
+      <h1>{sliderValue}</h1>
       <button
         onClick={() => setData([...data, Math.round(Math.random() * 100)])}
       >
