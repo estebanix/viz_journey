@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 export default function SideProfil(){
     return (
@@ -10,9 +10,10 @@ export default function SideProfil(){
             <p>Dovi Dopi Do</p>
             <ul>
                 <li><FontAwesomeIcon icon={faLocationDot} /> Prague</li>
-                <li><FontAwesomeIcon icon={faTwitter} /> Twitter</li>
-                <li><FontAwesomeIcon icon={faEnvelope} /> Email</li>
+                <li><a href='https://www.linkedin.com/' target="_blank"><FontAwesomeIcon icon={faLinkedin} className='linkedin' /> LinkedIn</a></li>
+                <li><a href="mailto:samuelkertes@gmail.com"><FontAwesomeIcon icon={faEnvelope} className='envelope'/> Email</a></li>
             </ul>
+            
         </main>
     );
 }
