@@ -5,6 +5,7 @@ export default function MainScreen(){
     return(
         <main className="main-screen--container">
             <MainScreenAbout />
+            <img className="hero--img" src="../Images/hero.png" />
             <PostCont />
         </main>
     );
