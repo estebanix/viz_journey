@@ -9,6 +9,7 @@ function DataViz() {
   const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
     setData([sliderValue * 20]);
+    console.log("aa")
   };
 
   // will be called initially and on every data change
