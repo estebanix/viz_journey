@@ -200,6 +200,10 @@ svg{
   padding: 30px;
 }
 
+.about-contact{
+  height: auto;
+}
+
 .articles--container{
   width: 100%;
   height: auto;

@@ -1,67 +1,86 @@
-import { useRef, useEffect, useState, useContext} from "react";
-import {select, axisBottom, axisRight, scaleLinear, scaleBand} from "d3";
-import { Context } from "../../Context/Context";
+import React, { useRef, useEffect, useState } from "react";
+import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
 
-export default function DataViz(){
-    const svgRef = useRef();
-    const {vizData} = useContext(Context);
-    const [data, setData] = useState([{x: 20, y: 34, label: "dot1"},{x: 10, y: 44, label: "dot2"},{x: 50, y: 134, label: "dot3"}])
-    const [rangePostion, setRangePosition] = useState(1)
+function DataViz() {
+  const [data, setData] = useState([25, 30, 45, 60, 10, 65, 75]);
+  const svgRef = useRef();
 
-    const groupColors = {
-        Africa: "#f2c57c",
-        Americas: "#ddae7e",
-        Asia: "#7fb685",
-        Europe: "#ef6f6c",
-        Oceania: "#426a5a",
-      };
+  // will be called initially and on every data change
+  useEffect(() => {
+    const svg = select(svgRef.current);
 
-    useEffect(() => {
-        const svg = select(svgRef.current);
-        const xScale = scaleBand().domain(data.map((dat, index) => index)).range([0, 600]).padding(0.5)
-        const yScale = scaleLinear().domain([0, 150]).range([300, 0])
+    // scales
+    const xScale = scaleBand()
+      .domain(data.map((value, index) => index))
+      .range([0, 300])
+      .padding(0.5);
 
-        const xAxis = axisBottom(xScale).ticks(data.length);
-        svg.select(".x-axis").style("transform", "translateY(300px)").call(xAxis);
-        
-        const yAxis = axisRight(yScale);
-        svg.select(".y-axis").call(yAxis);
+    const yScale = scaleLinear().domain([0, 150]).range([150, 0]);
 
+    const colorScale = scaleLinear()
+      .domain([75, 100, 150])
+      .range(["green", "orange", "red"])
+      .clamp(true);
+
+    // create x-axis
+    const xAxis = axisBottom(xScale).ticks(data.length);
+    svg.select(".x-axis").style("transform", "translateY(150px)").call(xAxis);
+
+    // create y-axis
+    const yAxis = axisRight(yScale);
+    svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
+
+    // draw the bars
+    svg
+      .selectAll(".bar")
+      .data(data)
+      .join("rect")
+      .attr("class", "bar")
+      .style("transform", "scale(1, -1)")
+      .attr("x", (value, index) => xScale(index))
+      .attr("y", -150)
+      .attr("width", xScale.bandwidth())
+      .on("mouseenter", (event, value) => {
+        // events have changed in d3 v6:
+        // https://observablehq.com/@d3/d3v6-migration-guide#events
+        const index = svg.selectAll(".bar").nodes().indexOf(event.target);
         svg
-        .selectAll("circle")
-        .data(vizData)
-        .join("circle")
-        .attr("fill", value => groupColors[value.group]) 
-        .attr("cx", value => value.x / (10 * rangePostion))
-        .attr("cy", value => value.y * 3 )
-        .attr("r", "5")
-        
-        .on("mouseover", (event, value) => {
-            const [x, y] = [event.pageX, event.pageY];
-            svg
-              .append("text")
-              .attr("class", "tooltip")
-              .attr("x", x + 10)
-              .attr("y", y - 10)
-              .text(value.label);
-          })
-          .on("mouseout", () => {
-            svg.select(".tooltip").remove();
-          });
+          .selectAll(".tooltip")
+          .data([value])
+          .join((enter) => enter.append("text").attr("y", yScale(value) - 4))
+          .attr("class", "tooltip")
+          .text(value)
+          .attr("x", xScale(index) + xScale.bandwidth() / 2)
+          .attr("text-anchor", "middle")
+          .transition()
+          .attr("y", yScale(value) - 8)
+          .attr("opacity", 1);
+      })
+      .on("mouseleave", () => svg.select(".tooltip").remove())
+      .transition()
+      .attr("fill", colorScale)
+      .attr("height", (value) => 150 - yScale(value));
+  }, [data]);
 
-    }, [vizData, rangePostion])
-
-    const showFlow = (e) => {
-        setRangePosition(e.target.value)
-    }
-
-    return(
-        <main className="main-contact--container">
-            <svg ref={svgRef} height={300}>
-                <g className="x-axis" />
-                <g className="y-axis" />
-            </svg>
-            <input type="range" onChange={e => showFlow(e)} min="1" max="10" value={rangePostion} />
-        </main>
-    );
+  return (
+    <React.Fragment>
+      <svg ref={svgRef}>
+        <g className="x-axis" />
+        <g className="y-axis" />
+      </svg>
+      <button onClick={() => setData(data.map((value) => value + 5))}>
+        Update data
+      </button>
+      <button onClick={() => setData(data.filter((value) => value < 35))}>
+        Filter data
+      </button>
+      <button
+        onClick={() => setData([...data, Math.round(Math.random() * 100)])}
+      >
+        Add data
+      </button>
+    </React.Fragment>
+  );
 }
+
+export default DataViz;
