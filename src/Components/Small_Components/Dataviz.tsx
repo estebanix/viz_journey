@@ -2,45 +2,35 @@ import React, { useRef, useEffect, useState } from "react";
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
 
 function DataViz() {
-  const [data, setData] = useState([20]);
+  const [data, setData] = useState([{a:1, dat:20, fill: "blue"}, {a:2, dat: 44, fill: "red"}, {a:3, dat: 100, fill: "orange"}]);
   const [sliderValue, setSliderValue] = useState(1);
   const svgRef = useRef();
 
   const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
-    setData([sliderValue * 20]);
-    console.log("aa")
   };
 
-  // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
 
-    // scales
     const xScale = scaleBand()
-      .domain(data.map((value, index) => index))
+      .domain([0])
       .range([0, 300])
       .padding(0.5);
 
     const yScale = scaleLinear().domain([0, 150]).range([150, 0]);
 
-    const colorScale = scaleLinear()
-      .domain([75, 100, 150])
-      .range(["green", "orange", "red"])
-      .clamp(true);
-
-    // create x-axis
-    const xAxis = axisBottom(xScale).ticks(data.length);
+    const xAxis = axisBottom(xScale).ticks(1);
     svg.select(".x-axis").style("transform", "translateY(150px)").call(xAxis);
 
-    // create y-axis
     const yAxis = axisRight(yScale);
     svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
 
-    // draw the bars
+    const currentData = data.find((dat) => dat.a === parseInt(sliderValue));
+    if(currentData){
     svg
       .selectAll(".bar")
-      .data(data)
+      .data([currentData])
       .join("rect")
       .attr("class", "bar")
       .style("transform", "scale(1, -1)")
@@ -48,8 +38,6 @@ function DataViz() {
       .attr("y", -150)
       .attr("width", xScale.bandwidth())
       .on("mouseenter", (event, value) => {
-        // events have changed in d3 v6:
-        // https://observablehq.com/@d3/d3v6-migration-guide#events
         const index = svg.selectAll(".bar").nodes().indexOf(event.target);
         svg
           .selectAll(".tooltip")
@@ -65,8 +53,8 @@ function DataViz() {
       })
       .on("mouseleave", () => svg.select(".tooltip").remove())
       .transition()
-      .attr("fill", colorScale)
-      .attr("height", (value) => 150 - yScale(value));
+      .attr("fill", value => value.fill)
+      .attr("height", (value) => 150 - yScale(value.dat));}
   }, [data, sliderValue]);
 
   return (
