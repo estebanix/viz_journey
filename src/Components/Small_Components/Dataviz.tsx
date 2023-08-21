@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
+import Data from "../../Datas/data.json"
 
 function DataViz() {
-  const [data, setData] = useState([{a:1, dat:20, fill: "blue"}, {a:2, dat: 44, fill: "red"}, {a:3, dat: 100, fill: "orange"}]);
-  const [sliderValue, setSliderValue] = useState(1);
+  const [data, setData] = useState(Data);
+  const [sliderValue, setSliderValue] = useState(2000);
   const svgRef = useRef();
 
   const handleSliderChange = (event) => {
@@ -65,8 +66,8 @@ function DataViz() {
       </svg>
       <input
         type="range"
-        min="1"
-        max="3"
+        min="2000"
+        max="2023"
         value={sliderValue}
         onChange={handleSliderChange}
       />
