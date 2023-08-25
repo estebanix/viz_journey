@@ -300,3 +300,7 @@ svg{
   width: 700px;
   height: auto;
 }
+
+.stream-graph{
+  margin: 0 auto;
+}
