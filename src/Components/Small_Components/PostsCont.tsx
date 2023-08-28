@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function PostCont(){
     const {articlesData} = useContext(Context);
 
-    const recentPosts = articlesData.map((dat) => {
+    const recentPosts = articlesData.slice(-3).reverse().map((dat) => {
         return <div className="post--box">
             <h2><Link to={`/${dat.name}`} >{dat.title}</Link></h2>
             <p><FontAwesomeIcon icon={faClock} /> {dat.time}</p>
@@ -19,6 +19,7 @@ export default function PostCont(){
         <main className="main-screen-about--container posts-cont">
             <h1>Recent posts</h1>
             {recentPosts}
+            <Link to="/posts"><button className="general--btn">Show More</button></Link>
         </main>
     );
 }
