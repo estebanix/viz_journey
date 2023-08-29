@@ -316,3 +316,13 @@ svg{
   background-color: transparent;
 }
 
+.share--btn{
+  width: 120px;
+  height: 60px;
+  background-color: #14171A;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

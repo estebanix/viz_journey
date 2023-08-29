@@ -46,17 +46,12 @@
         .order(d3Shape.stackOrderInsideOut)
         .keys(keys);
 
-      // Using the stackLayout we get two additional components for y0 and y1.
-      // For x we want to get the yeaer from the original data, so we have to access d.data
       const stackArea = d3Shape.area()
         .x((d) => xScale(d.data.year))
         .y0((d) => yScale(d[0]))
         .y1((d) => yScale(d[1]))
         .curve(d3Shape.curveBasis);
 
-      
-    	// Optional tooltip in top right corner when hovering a stream
-      // You could also export the Tooltip to its own file
       const [opacity, setOpacity] = React.useState(0);
       const [text, setText] = React.useState("initialState");
       const Tooltip = ({ opacity, text }) => {
