@@ -3,7 +3,7 @@ import { Context } from '../../Context/Context';
 import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faLinkedin, faXTwitter } from '@fortawesome/free-brands-svg-icons'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
 export default function CurrentPost() {
@@ -24,9 +24,15 @@ export default function CurrentPost() {
                 {post.content}
             </ReactMarkdown>
             <img className='current-post--img' src={post.img} />
-            <a className='share--btn' href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`} target='_blank' rel='noopener noreferrer'>
-                Share on <FontAwesomeIcon icon={faXTwitter} />
-            </a>
+            <div className='share--box'>
+                <p>Share on:</p>
+                <a className='share--btn' href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`} target='_blank' rel='noopener noreferrer'>
+                    <FontAwesomeIcon icon={faXTwitter} />
+                </a>
+                <a className='share--btn share-link' href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`} target='_blank' rel='noopener noreferrer'>
+                    <FontAwesomeIcon icon={faLinkedin} />
+                </a>
+            </div>
         </div>
     );
 }
