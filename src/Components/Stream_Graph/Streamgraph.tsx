@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import * as d3 from "d3";
 import { curveCatmullRom } from "d3";
+import styles from "./streamgraph.module.css";
+import StreamgraphLegend from "./StreamgraphLegend";
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
@@ -44,7 +46,7 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
   const colorScale = d3
     .scaleOrdinal<string>()
     .domain(groups)
-    .range(["#e0ac2b", "#e85252", "#6689c6", "#9a6fb0", "#a53253"]);
+    .range(["#EF476F", "#FFD166", "#06D6A0", "#118AB2", "#073B4C"]);
 
   // Build the shapes
   const areaBuilder = d3
@@ -61,6 +63,7 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
     return (
       <path
         key={i}
+        className={styles.shape}
         d={path}
         opacity={1}
         stroke="grey"
@@ -94,8 +97,11 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
     </g>
   ));
 
+  
+
   return (
     <div className="stream-graph">
+      <StreamgraphLegend colorScale={colorScale} groups={groups} />
       <svg width={width} height={height}>
         <g
           width={boundsWidth}
@@ -103,7 +109,7 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
           transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
         >
           {grid}
-          {allPath}
+          <g className={styles.container}>{allPath}</g>
         </g>
       </svg>
     </div>
