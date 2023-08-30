@@ -1,99 +1,112 @@
-import { useState } from "react";
-import {
-  stack,
-  area,
-  curveBasis,
-  stackOrderInsideOut,
-  stackOffsetSilhouette,
-} from "d3-shape";
-import { schemeDark2 } from "d3-scale-chromatic";
-import { scaleLinear, scaleOrdinal } from "d3-scale";
-import { extent } from "d3-array";
+import { useMemo } from "react";
+import * as d3 from "d3";
+import { curveCatmullRom } from "d3";
 
-export const StreamGraph = ({ data, width, height }) => {
-  const keys = data.columns.slice(1);
+const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
-  // Color for each category
-  const colorScale = scaleOrdinal().domain(keys).range(schemeDark2);
+type StreamGraphProps = {
+  width: number;
+  height: number;
+  data: { [key: string]: number }[];
+};
 
-  // Accessor function to get the year and then build scale from it
-  const xValue = (d) => d.year;
-  const xScale = scaleLinear().domain(extent(data, xValue)).range([0, width]);
+export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
+  // bounds = area inside the graph axis = calculated by substracting the margins
+  const boundsWidth = width - MARGIN.right - MARGIN.left;
+  const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-  const yScale = scaleLinear().domain([-10000, 10000]).range([height, 0]);
+  //
+  const groups = ["groupA", "groupB", "groupC", "groupD"];
 
-  // could do some filtering here
-  const stackData = data;
+  // Data Wrangling: stack the data
+  const stackSeries = d3
+    .stack()
+    .keys(groups)
+    .order(d3.stackOrderNone)
+    .offset(d3.stackOffsetSilhouette);
+  const series = stackSeries(data);
 
-  // Setup the layout of the graph
-  const stackLayout = stack()
-    .offset(stackOffsetSilhouette)
-    .order(stackOrderInsideOut)
-    .keys(keys);
+  // Y axis
+  const max = 300; // todo
+  const yScale = useMemo(() => {
+    return d3.scaleLinear().domain([-200, 200]).range([boundsHeight, 0]);
+  }, [data, height]);
 
-  // Using the stackLayout we get two additional components for y0 and y1.
-  // For x we want to get the yeaer from the original data, so we have to access d.data
-  const stackArea = area()
-    .x((d) => xScale(d.data.year))
-    .y0((d) => yScale(d[0]))
+  // X axis
+  const [xMin, xMax] = d3.extent(data, (d) => d.x);
+  const xScale = useMemo(() => {
+    return d3
+      .scaleLinear()
+      .domain([xMin || 0, xMax || 0])
+      .range([0, boundsWidth]);
+  }, [data, width]);
+
+  // Color
+  const colorScale = d3
+    .scaleOrdinal<string>()
+    .domain(groups)
+    .range(["#e0ac2b", "#e85252", "#6689c6", "#9a6fb0", "#a53253"]);
+
+  // Build the shapes
+  const areaBuilder = d3
+    .area<any>()
+    .x((d) => {
+      return xScale(d.data.x);
+    })
     .y1((d) => yScale(d[1]))
-    .curve(curveBasis);
+    .y0((d) => yScale(d[0]))
+    .curve(curveCatmullRom);
 
-  
-	// Optional tooltip in top right corner when hovering a stream
-  // You could also export the Tooltip to its own file
-  const [opacity, setOpacity] = useState(0);
-  const [text, setText] = useState("initialState");
-  const Tooltip = ({ opacity, text }) => {
+  const allPath = series.map((serie, i) => {
+    const path = areaBuilder(serie);
     return (
-      <text x={50} y={50} style={{ opacity: opacity, fontSize: 17, fill: "black"}}>
-        {text}
-      </text>
+      <path
+        key={i}
+        d={path}
+        opacity={1}
+        stroke="grey"
+        fill={colorScale(serie.key)}
+        fillOpacity={0.8}
+      />
     );
-  };
-  //Interactivity function #1: Hovering
-  const handleMouseover = (d) => {
-    setOpacity(1);
-  };
-  //Interactivity function #2: Moving
-  const handleMousemove = (d) => {
-    setText(d.key);
-  };
-  //Interactivity function #3: Leaving
-  const handleMouseleave = (d) => {
-    setOpacity(0);
-    setText("initialState");
-  };
+  });
 
-  
-  // Generate path elements using React 
-  // Mouseovers and opacity are optional for interactivity
-  const stacks = stackLayout(stackData).map((d, i) => (
-    <path
-      key={"stack" + i}
-      d={stackArea(d)}
-      style={{
-        fill: colorScale(d.key),
-        stroke: "black",
-        strokeOpacity: 0.25,
-        opacity: text === "initialState" || d.key === text ? 1 : 0.2,
-      }}
-      onMouseOver={() => {
-        handleMouseover(d);
-      }}
-      onMouseMove={() => {
-        handleMousemove(d);
-      }}
-      onMouseLeave={() => {
-        handleMouseleave(d);
-      }}
-    />
+  const grid = xScale.ticks(5).map((value, i) => (
+    <g key={i}>
+      <line
+        x1={xScale(value)}
+        x2={xScale(value)}
+        y1={0}
+        y2={boundsHeight}
+        stroke="#808080"
+        opacity={0.2}
+      />
+      <text
+        x={xScale(value)}
+        y={boundsHeight + 10}
+        textAnchor="middle"
+        alignmentBaseline="central"
+        fontSize={9}
+        stroke="#808080"
+        opacity={0.8}
+      >
+        {value}
+      </text>
+    </g>
   ));
 
   return (
-    <svg className="stream-graph" width={width} height={height}>
-      <Tooltip opacity={opacity} text={text} />
-      <>{stacks}</>
-    </svg>
+    <div className="stream-graph">
+      <svg width={width} height={height}>
+        <g
+          width={boundsWidth}
+          height={boundsHeight}
+          transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+        >
+          {grid}
+          {allPath}
+        </g>
+      </svg>
+    </div>
   );
 };

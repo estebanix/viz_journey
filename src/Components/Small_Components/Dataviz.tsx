@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { select, axisBottom, axisRight, scaleLinear, scaleBand } from "d3";
-import Data from "../../Datas/data.json"
+import {data} from "../../Datas/data"
 
 function DataViz() {
-  const [data, setData] = useState(Data);
+  const [data, setData] = useState(data);
   const [sliderValue, setSliderValue] = useState(2000);
   const svgRef = useRef();
 
