@@ -16,7 +16,7 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
   //
-  const groups = ["groupA", "groupB", "groupC", "groupD"];
+  const groups = ["school", "work", "bodybuilding", "programming", "freetime"];
 
   // Data Wrangling: stack the data
   const stackSeries = d3
@@ -27,13 +27,12 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
   const series = stackSeries(data);
 
   // Y axis
-  const max = 300; // todo
   const yScale = useMemo(() => {
-    return d3.scaleLinear().domain([-200, 200]).range([boundsHeight, 0]);
+    return d3.scaleLinear().domain([-100, 100]).range([boundsHeight, 0]);
   }, [data, height]);
 
   // X axis
-  const [xMin, xMax] = d3.extent(data, (d) => d.x);
+  const [xMin, xMax] = d3.extent(data, (d) => d.year);
   const xScale = useMemo(() => {
     return d3
       .scaleLinear()
@@ -51,7 +50,7 @@ export const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
   const areaBuilder = d3
     .area<any>()
     .x((d) => {
-      return xScale(d.data.x);
+      return xScale(d.data.year);
     })
     .y1((d) => yScale(d[1]))
     .y0((d) => yScale(d[0]))
