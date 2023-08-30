@@ -299,6 +299,7 @@ svg{
 .current-post--img{
   width: 700px;
   height: auto;
+  margin: 20px 0 ;
 }
 
 .stream-graph{
@@ -314,6 +315,23 @@ svg{
   justify-content: center;
   align-items: center;
   background-color: transparent;
+}
+
+.time--box{
+  border-bottom: 1px solid #6f777d20;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time--box p{
+  font-size: 1.1em;
+  color: #6f777d;
+}
+
+.time--box svg{
+  margin-right: 6px;
 }
 
 .share--box{

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { Context } from '../../Context/Context';
 import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faClock, faCalendarDays, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { faLinkedin, faXTwitter } from '@fortawesome/free-brands-svg-icons'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
@@ -24,6 +24,10 @@ export default function CurrentPost() {
                 {post.content}
             </ReactMarkdown>
             <img className='current-post--img' src={post.img} />
+            <div className='time--box'>
+                <p><span><FontAwesomeIcon icon={faCalendarDays} />Updated:</span> {post.date}</p>
+                <p><span><FontAwesomeIcon icon={faPenToSquare} />Topic:</span> {post.topic}</p>
+            </div>
             <div className='share--box'>
                 <p>Share on:</p>
                 <a className='share--btn' href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`} target='_blank' rel='noopener noreferrer'>
